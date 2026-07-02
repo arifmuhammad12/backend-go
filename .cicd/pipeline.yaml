@@ -1,0 +1,25 @@
+# Config CI untuk backend-go — dibaca oleh shared library (AD-15)
+app_name: backend-go
+language: go
+
+test:
+  command: "go test -v -cover ./..."
+
+registry:
+  region: asia-southeast2
+  project_id: your-gcp-project-id
+  repository: docker-images-repo
+
+gitops:
+  repo_url: github.com/your-org/gitops.git
+  branch: main
+  path: apps/backend-go/overlays/development
+
+build:
+  tool: kaniko
+  branch: development
+
+slack:
+  channel: "#deployments"
+
+agent_label: "vm-jenkins"
