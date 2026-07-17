@@ -1,4 +1,5 @@
-# Config CI untuk backend-go — dibaca oleh shared library (AD-15)
+# Config CI untuk backend-go — dibaca oleh shared library setelah checkout repo ini
+# Repo ini: https://github.com/YOUR_ORG/backend-go.git (repo apps terpisah)
 app_name: backend-go
 language: go
 
@@ -7,19 +8,20 @@ test:
 
 registry:
   region: asia-southeast1
-  project_id: nsr-devops
+  project_id: nsr-devops       # <- GANTI dengan GCP project ID kamu
   repository: docker-images-course
 
 gitops:
-  repo_url: github.com/cinemaxxi-team/devops_architecture.git
+  repo_url: github.com/cinemaxxi-team/devops_architecture.git  # <- GANTI repo gitops kamu (tanpa https://)
   branch: main
-  path: apps/backend-go/overlays/development
+  path: course-project/05-gitops/applications/development/backend-go/patch  # path di dalam repo gitops
+  rollout_file: rollout.yaml
 
 build:
   tool: docker
-  branch: development
+  branch: development  # hanya branch ini yang build+push+update gitops
 
 slack:
-  channel: "#deployments"
+  channel: "#devops-course"
 
-agent_label: "vm-jenkins"
+agent_label: "built-in"

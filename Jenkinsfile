@@ -1,4 +1,8 @@
-// Multibranch Pipeline: tiap branch (development/staging/production) jadi sub-job.
-// Seluruh logika ada di shared library; Jenkinsfile sengaja tipis.
+// Pipeline job biasa (bukan Multibranch).
+// Checkout dilakukan oleh shared library dengan explicit git step.
+// configPath: path ke pipeline.yaml relatif dari root repo (monorepo)
 @Library('course-shared-library') _
-containerPipeline()
+
+containerPipeline(
+    configPath: 'course-project/apps/backend-go/.cicd/pipeline.yaml'
+)
