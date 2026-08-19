@@ -9,6 +9,8 @@ import (
 	"github.com/course/backend-go/internal/handler"
 )
 
+// TestHealthz memverifikasi health check endpoint.
+// Tidak ada NR instrumentasi di Healthz — tes sederhana.
 func TestHealthz(t *testing.T) {
 	req := httptest.NewRequest(http.MethodGet, "/healthz", nil)
 	w := httptest.NewRecorder()
@@ -26,7 +28,11 @@ func TestHealthz(t *testing.T) {
 	}
 }
 
+// TestHello memverifikasi Hello endpoint dengan NR agent tidak aktif.
+// Ketika NEW_RELIC_LICENSE_KEY kosong, semua NR calls di-skip (nil-safe).
+// Test ini membuktikan handler berjalan normal TANPA NR agent (graceful degradation).
 func TestHello(t *testing.T) {
+	// Tidak perlu set NEW_RELIC_LICENSE_KEY — handler gracefully handle nil txn
 	req := httptest.NewRequest(http.MethodGet, "/api/v1/hello", nil)
 	w := httptest.NewRecorder()
 
@@ -43,6 +49,7 @@ func TestHello(t *testing.T) {
 	}
 }
 
+// TestVersion memverifikasi Version endpoint dengan APP_VERSION env var.
 func TestVersion(t *testing.T) {
 	t.Setenv("APP_VERSION", "test-123")
 
