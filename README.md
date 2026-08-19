@@ -9,8 +9,8 @@ Aplikasi backend sederhana berbahasa Go. Tanpa database — fokus demonstrasi al
 
 ## Run lokal
 ```bash
-make run        # default port 8080
-# atau: APP_PORT=3000 go run main.go
+make run        # default port 4000
+# atau: APP_PORT=4000 go run main.go
 ```
 
 ## Test

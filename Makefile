@@ -1,5 +1,5 @@
 APP_NAME := backend-go
-APP_PORT := 8080
+APP_PORT := 4000
 
 .PHONY: run test build docker-build
 
