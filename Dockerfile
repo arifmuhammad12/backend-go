@@ -16,5 +16,5 @@ ENV TZ=Asia/Jakarta
 WORKDIR /app
 COPY --from=builder --chown=appuser:appuser /app/server .
 USER appuser
-EXPOSE 8080
+EXPOSE 4000
 CMD ["/app/server"]
