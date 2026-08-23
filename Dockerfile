@@ -6,7 +6,16 @@ COPY go.mod go.sum ./
 RUN go mod download
 COPY . .
 ARG APP_VERSION=dev
-RUN CGO_ENABLED=0 GOOS=linux go build -ldflags "-w -s" -o /app/server main.go
+ARG BUILD_NUMBER=local
+ARG COMMIT_SHA=dev
+ARG COMMIT_MESSAGE="local development"
+
+RUN CGO_ENABLED=0 GOOS=linux go build \
+    -ldflags "-w -s \
+      -X 'github.com/course/backend-go/internal/handler.BuildNumber=${BUILD_NUMBER}' \
+      -X 'github.com/course/backend-go/internal/handler.CommitSHA=${COMMIT_SHA}' \
+      -X 'github.com/course/backend-go/internal/handler.CommitMessage=${COMMIT_MESSAGE}'" \
+    -o /app/server main.go
 
 # Stage 2: Runtime (minimal)
 FROM alpine:3.20

@@ -7,12 +7,43 @@ import (
 	"os"
 )
 
+// Build & Git metadata — diinjeksi saat build via ldflags -X atau runtime env
+var (
+	BuildNumber   = "local"
+	CommitSHA     = "dev"
+	CommitMessage = "local development"
+)
+
+func init() {
+	if val := os.Getenv("BUILD_NUMBER"); val != "" {
+		BuildNumber = val
+	}
+	if val := os.Getenv("COMMIT_SHA"); val != "" {
+		CommitSHA = val
+	}
+	if val := os.Getenv("COMMIT_MESSAGE"); val != "" {
+		CommitMessage = val
+	}
+}
+
 // ─── Healthz ───────────────────────────────────────────────────────────────
+
+type HealthzResponse struct {
+	Status        string `json:"status"`
+	BuildNumber   string `json:"build_number"`
+	CommitSHA     string `json:"commit_sha"`
+	CommitMessage string `json:"commit_message"`
+}
 
 func Healthz(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(map[string]string{"status": "ok"})
+	json.NewEncoder(w).Encode(HealthzResponse{
+		Status:        "ok",
+		BuildNumber:   BuildNumber,
+		CommitSHA:     CommitSHA,
+		CommitMessage: CommitMessage,
+	})
 }
 
 // ─── Hello ─────────────────────────────────────────────────────────────────
