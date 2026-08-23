@@ -33,4 +33,4 @@ make docker-build  # docker image lokal
 Terinspirasi `dc-cinema-service-production` (layered architecture + chi router + New Relic + graceful shutdown). Disederhanakan: tanpa database, tanpa Swagger, tanpa repo/service layer — fokus DevOps pipeline bukan business logic.
 
 Instrumentasi New Relic ditambahkan di Epic 7 (Observability).
-Semangat
+Semangat!
