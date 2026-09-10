@@ -18,7 +18,8 @@ RUN CGO_ENABLED=0 GOOS=linux go build \
     -o /app/server main.go
 
 # Stage 2: Runtime (minimal)
-FROM alpine:3.20
+FROM alpine:3.22
+RUN apk update && apk upgrade --no-cache
 RUN addgroup -S appuser && adduser -S appuser -G appuser
 RUN apk add --no-cache tzdata ca-certificates curl
 ENV TZ=Asia/Jakarta
